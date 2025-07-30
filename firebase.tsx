@@ -24,15 +24,3 @@ const app = initializeApp(firebaseConfig);
 
 // Initialise Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
-
-export const testAddData = async () => {
-  try {
-    const docRef = await addDoc(collection(db, "test"), {
-      name: "John Doe",
-      age: 30,
-    });
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
-};

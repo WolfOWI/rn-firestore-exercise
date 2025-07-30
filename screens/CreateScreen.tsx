@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
-import { testAddData } from "../firebase";
 
 const CreateScreen = () => {
   const navigation: any = useNavigation();
@@ -55,10 +54,6 @@ const CreateScreen = () => {
           />
           <Text>Priority?</Text>
         </View>
-
-        <TouchableOpacity style={styles.button} onPress={testAddData}>
-          <Text style={styles.buttonText}>Test Firebase Add Data</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Create Bucket List Item</Text>
