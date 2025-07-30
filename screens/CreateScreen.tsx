@@ -8,11 +8,14 @@ import {
   Switch,
 } from "react-native";
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useRoute } from "@react-navigation/core";
 import { createNewBucketItem } from "../services/DbService";
 
 const CreateScreen = () => {
   const navigation: any = useNavigation();
+  const route: any = useRoute();
+
+  const { onItemCreated } = route.params;
 
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState(false);
@@ -20,6 +23,8 @@ const CreateScreen = () => {
   const [description, setDescription] = useState("");
 
   const handleCreation = async () => {
+    // TODO: Validation (all fields are required)
+
     var items = {
       title: title,
       priority: priority,
@@ -31,6 +36,9 @@ const CreateScreen = () => {
     const success = await createNewBucketItem(items);
 
     if (success) {
+      if (onItemCreated) {
+        onItemCreated();
+      }
       navigation.goBack();
     } else {
       // TODO: validation error
