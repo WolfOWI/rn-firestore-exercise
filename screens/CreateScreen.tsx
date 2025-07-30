@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Switch,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/core";
@@ -23,7 +24,10 @@ const CreateScreen = () => {
   const [description, setDescription] = useState("");
 
   const handleCreation = async () => {
-    // TODO: Validation (all fields are required)
+    if (!title || !due || !description) {
+      Alert.alert("Error", "Please fill in all the fields.");
+      return;
+    }
 
     var items = {
       title: title,
@@ -41,7 +45,7 @@ const CreateScreen = () => {
       }
       navigation.goBack();
     } else {
-      // TODO: validation error
+      Alert.alert("Error", "Couldn't create item. Please try again.");
     }
   };
 

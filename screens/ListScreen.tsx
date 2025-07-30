@@ -1,4 +1,12 @@
-import { Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -35,31 +43,34 @@ const ListScreen = () => {
     // console.log("Items: ", items);
   };
 
+  const bucketListItemCard = (item: any) => (
+    <TouchableOpacity style={styles.card} onPress={() => goToDetails(item)} key={item.id}>
+      <View style={styles.cardTitle}>
+        <Text>{item.title}</Text>
+        {item.isCompleted && <AntDesign name="checkcircle" size={24} color="green" />}
+      </View>
+      {item.priority ? (
+        <AntDesign name="star" size={24} color="orange" />
+      ) : (
+        <AntDesign name="star" size={24} color="lightgrey" />
+      )}
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <Pressable style={styles.addButton} onPress={goToAdd}>
           <Text style={styles.addButtonText}>Add</Text>
-          <Entypo name="bucket" size={16} color="green" />
+          <Entypo name="plus" size={16} color="green" />
         </Pressable>
 
-        {bucketList.length > 0 ? (
-          bucketList.map((item) => (
-            <TouchableOpacity style={styles.card} onPress={() => goToDetails(item)} key={item.id}>
-              <View style={styles.cardTitle}>
-                <Text>{item.title}</Text>
-                {item.isCompleted && <AntDesign name="checkcircle" size={24} color="green" />}
-              </View>
-              {item.priority ? (
-                <AntDesign name="star" size={24} color="orange" />
-              ) : (
-                <AntDesign name="star" size={24} color="lightgrey" />
-              )}
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text>No items in the bucket list</Text>
-        )}
+        <FlatList
+          data={bucketList}
+          renderItem={({ item }) => bucketListItemCard(item)}
+          keyExtractor={(item) => item.id}
+          ListEmptyComponent={<Text>No items in the bucket list</Text>}
+        />
       </View>
     </SafeAreaView>
   );
@@ -79,6 +90,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    borderRadius: 10,
+    marginBottom: 10,
   },
   cardTitle: {
     flexDirection: "row",
@@ -95,6 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 5,
+    borderRadius: 10,
   },
   addButtonText: {
     textAlign: "center",
