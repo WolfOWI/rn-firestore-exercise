@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
+import { createNewBucketItem } from "../services/DbService";
 
 const CreateScreen = () => {
   const navigation: any = useNavigation();
@@ -17,6 +18,24 @@ const CreateScreen = () => {
   const [priority, setPriority] = useState(false);
   const [due, setDue] = useState("");
   const [description, setDescription] = useState("");
+
+  const handleCreation = async () => {
+    var items = {
+      title: title,
+      priority: priority,
+      due: due,
+      description: description,
+      isCompleted: false,
+    };
+
+    const success = await createNewBucketItem(items);
+
+    if (success) {
+      navigation.goBack();
+    } else {
+      // TODO: validation error
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -55,7 +74,7 @@ const CreateScreen = () => {
           <Text>Priority?</Text>
         </View>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleCreation}>
           <Text style={styles.buttonText}>Create Bucket List Item</Text>
         </TouchableOpacity>
       </View>
